@@ -16,11 +16,11 @@ angular.module('lunchr.vote', [
   });
 })
 
-.controller('VoteCtrl', ['$scope', '$state', 'Restaurants', function($scope, $state, Restaurants) {
+.controller('VoteCtrl', ['$scope', '$state', 'Choices', function($scope, $state, Choices) {
   $scope.selected = [];
   $scope.fetchData = function(callback) {
-    Restaurants.query(null, null, function(result) {
-      $scope.restaurants = result.businesses;
+    Choices.query(null, null, function(result) {
+      $scope.choices = result.businesses;
     });
   };
 
@@ -32,6 +32,7 @@ angular.module('lunchr.vote', [
       $scope.selected.splice(idx, 1);
     }
 
+    console.log($scope.choices[index]);
     if ($scope.selected.length === 3)
       $state.go('results');
   };

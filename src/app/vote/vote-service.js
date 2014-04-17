@@ -1,6 +1,6 @@
 angular.module('lunchr.vote')
-  .factory('Restaurants', function($resource) {
-    return $resource('/data', {id:'@id'}, {
+  .factory('Choices', function($resource) {
+    return $resource('/api/choices', {id:'@id'}, {
         'update': { method: 'PUT' },
         'query': { method: 'GET', isArray: false }
       });
