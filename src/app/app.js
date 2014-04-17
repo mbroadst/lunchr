@@ -4,6 +4,7 @@ angular.module('lunchr', [
   'templates-common',
   'ui.router.state',
   'ui.router',
+  'lunchr.api',
   'lunchr.vote',
   'lunchr.results'
 ])

@@ -16,10 +16,11 @@ angular.module('lunchr.vote', [
   });
 })
 
-.controller('VoteCtrl', ['$scope', '$state', 'Choices', function($scope, $state, Choices) {
+.controller('VoteCtrl', ['$scope', '$state', 'api',
+                function( $scope,   $state,   api) {
   $scope.selected = [];
   $scope.fetchData = function(callback) {
-    Choices.query(null, null, function(result) {
+    api.Choices.query(null, null, function(result) {
       $scope.choices = result.businesses;
     });
   };
