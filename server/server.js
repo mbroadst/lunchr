@@ -8,7 +8,8 @@ var express = require('express'),
     http = require('http'),
     path = require('path'),
     config = require('./server-config'),
-    fakeData = require('./fake-data');
+    choices = require('./routes/choices'),
+    votes = require('./routes/votes');
 
 var app = module.exports = express();
 
@@ -35,26 +36,14 @@ if (app.get('env') === 'development') {
 var yelp = require("yelp").createClient(config.yelpAuthInfo);
 
 // routes
-app.use('/data', function(req, res) {
-	/*
-	yelp.search({term: "food", location: "19406"}, function(error, data) {
-	  if (!!error) {
-	  	res.json(error);
-	  	return;
-	  }
-
-	  res.json(data);
-	});
-	*/
-	res.json(fakeData);
-});
-
+app.use('/api/choices', choices);
+app.use('/api/vote', votes);
 app.use(serveStatic(root));
 app.all('/*', function(req, res) {
   // Just send the index.html for other files to support HTML5Mode
   res.sendfile('index.html', { root: root });
 });
 
-http.createServer(app).listen(app.get('port'), function () {
+app.listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
 });
