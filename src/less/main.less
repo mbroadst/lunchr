@@ -1,0 +1,86 @@
+@import '../../vendor/bootstrap/less/bootstrap.less';
+@import '../../vendor/fontawesome/less/font-awesome.less';
+@import 'variables.less';
+
+/* re-add curved tables */
+@table-radius: 3px;
+.table-curved {
+    border-collapse: separate;
+}
+   .table-curved {
+    border: solid @table-border-color 1px;
+    border-radius: @table-radius;
+    border-left:0px;
+}
+.table-curved td, .table-curved th {
+    border-left: 1px solid @table-border-color;
+    border-top: 1px solid @table-border-color;
+}
+.table-curved th {
+    border-top: none;
+}
+.table-curved th:first-child {
+    border-radius: @table-radius 0 0 0;
+}
+.table-curved th:last-child {
+    border-radius: 0 @table-radius 0 0;
+}
+.table-curved th:only-child{
+    border-radius: @table-radius @table-radius 0 0;
+}
+.table-curved tr:last-child td:first-child {
+    border-radius: 0 0 0 @table-radius;
+}
+.table-curved tr:last-child td:last-child {
+    border-radius: 0 0 @table-radius 0;
+}
+
+body { 
+    padding-top: 65px; 
+}
+
+/* simple animations */
+.ui-view-container {
+    position: relative;
+}
+
+[ui-view].ng-enter, [ui-view].ng-leave {
+    position: absolute;
+    left: 0;
+    right: 0;
+    -webkit-transition: 250ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 250ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 250ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 250ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 250ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+}
+
+[ui-view].ng-enter {
+    opacity: 0;
+    -webkit-transform:scale3d(0.5, 0.5, 0.5);
+    -moz-transform:scale3d(0.5, 0.5, 0.5);
+    transform:scale3d(0.5, 0.5, 0.5);
+}
+
+[ui-view].ng-enter-active {
+    opacity: 1;
+    -webkit-transform:scale3d(1, 1, 1);
+    -moz-transform:scale3d(1, 1, 1);
+    transform:scale3d(1, 1, 1);
+}
+
+[ui-view].ng-leave {
+    opacity: 1;
+    /*padding-left: 0px;*/  
+    -webkit-transform:translate3d(0, 0, 0);
+    -moz-transform:translate3d(0, 0, 0);
+    transform:translate3d(0, 0, 0);
+}
+
+[ui-view].ng-leave-active {
+    opacity: 0;
+    /*padding-left: 100px;*/
+    -webkit-transform:translate3d(100px, 0, 0);
+    -moz-transform:translate3d(100px, 0, 0);
+    transform:translate3d(100px, 0, 0);
+}

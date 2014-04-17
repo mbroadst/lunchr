@@ -1,0 +1,18 @@
+<div class="list-group">
+	<a ng-repeat="restaurant in restaurants" href="#" class="list-group-item"
+		 ng-click="select($index)">
+		<img src="{{restaurant.image_url}}" width="32" height="32">
+		{{restaurant.name}}
+
+		<span ng-if="selected.indexOf($index) === 0" class="animate-if badge alert-success">
+	  	1st choice
+		</span>
+		<span ng-if="selected.indexOf($index) === 1" class="animate-if badge alert-info">
+	  	2nd choice
+		</span>
+		<span ng-if="selected.indexOf($index) === 2" class="animate-if badge alert-warning">
+	  	3rd choice
+		</span>
+
+	</a>
+</div>
