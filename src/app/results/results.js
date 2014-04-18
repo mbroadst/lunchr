@@ -17,9 +17,17 @@ angular.module('lunchr.results', [
   });
 })
 
-.controller('ResultsCtrl', ['$scope', 'api', function($scope, api) {
-  api.Votes.query(null, null, function(result) {
-    $scope.results = result.votes;
-    $scope.totalVotes = result.total;
+.controller('ResultsCtrl', ['$scope', 'api', 'socket', function($scope, api, socket) {
+  socket.on('vote:added', function(data) {
+    $scope.fetchData();
   });
+
+  $scope.fetchData = function() {
+    api.Votes.query(null, null, function(result) {
+      $scope.results = result.votes;
+      $scope.totalVotes = result.total;
+    });
+  };
+
+  $scope.fetchData();
 }]);

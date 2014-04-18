@@ -1,12 +1,13 @@
 var express = require('express'),
-		bodyParser = require('body-parser'),
-		methodOverride = require('method-override'),
-		logger = require('morgan'),
-		errorHandler = require('errorhandler'),
-		serveStatic = require('serve-static'),
-		compression = require('compression'),
+    bodyParser = require('body-parser'),
+    methodOverride = require('method-override'),
+    logger = require('morgan'),
+    errorHandler = require('errorhandler'),
+    serveStatic = require('serve-static'),
+    compression = require('compression'),
     path = require('path'),
     fs = require('fs'),
+    socketio = require('socket.io'),
     mongoose = require('mongoose');
 
 // paths
@@ -41,16 +42,18 @@ db.once('open', function() {
     }
   });
 
-  // routes
-  app.use('/api/choices', require('./routes/choices'));
-  app.use('/api/votes', require('./routes/votes'));
-  app.use(serveStatic(root));
-  app.all('/*', function(req, res) {
-    // Just send the index.html for other files to support HTML5Mode
-    res.sendfile('index.html', { root: root });
-  });
-
   app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
+    io = socketio.listen(this);
+
+    // routes
+    app.use('/api/choices', require('./routes/choices'));
+    app.use('/api/votes', require('./routes/votes')(io));
+    app.use(serveStatic(root));
+    app.all('/*', function(req, res) {
+      // Just send the index.html for other files to support HTML5Mode
+      res.sendfile('index.html', { root: root });
+    });
+
   });
 });

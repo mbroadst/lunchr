@@ -28,39 +28,42 @@ function upsertVote(item, callback) {
   });
 };
 
-votes.post('/', function(req, res) {
-  console.log(typeof req.body);
+module.exports = function(io) {
+  votes.post('/', function(req, res) {
+    console.log(typeof req.body);
 
-  async.each(req.body, upsertVote, function(error) {
-    if (!!error) {
-      console.log(error);
-      res.json(error);
-      return;
-    }
+    async.each(req.body, upsertVote, function(error) {
+      if (!!error) {
+        console.log(error);
+        res.json(error);
+        return;
+      }
 
-    res.status(200);
-    res.end();
-  });
-});
-
-votes.get('/', function(req, res) {
-  Vote.find({score: { '$gt': 0} }).sort('-score').exec(function (error, votes) {
-    if (!!error)
-      return res.json(error);
-
-    var total = votes.reduce(function(left, right) {
-        return {score: left.score + right.score};
-    });
-
-    res.json({
-      votes: votes,
-      total: total.score
+      res.status(200);
+      io.sockets.emit('vote:added');
+      res.end();
     });
   });
-});
 
-votes.get('/:id', function(req, res) {
-  res.json({action: "SHOW"});
-});
+  votes.get('/', function(req, res) {
+    Vote.find({score: { '$gt': 0} }).sort('-score').exec(function (error, votes) {
+      if (!!error)
+        return res.json(error);
 
-module.exports = votes;
+      var total = votes.reduce(function(left, right) {
+          return {score: left.score + right.score};
+      });
+
+      res.json({
+        votes: votes,
+        total: total.score
+      });
+    });
+  });
+
+  votes.get('/:id', function(req, res) {
+    res.json({action: "SHOW"});
+  });
+
+  return votes;
+};
