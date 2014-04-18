@@ -2,15 +2,17 @@
   "name": "lunchr",
   "version": "0.0.1",
   "devDependencies": {
-    "angular": "~1.3",
-    "angular-mocks": "~1.3",
-    "angular-resource": "~1.3",
-    "angular-animate": "~1.3",
-    "bootstrap": "~3.1.1",
-    "fontawesome": "~4.0.3",
-    "angular-bootstrap": "~0.10.0",
-    "angular-ui-router": "~0.2",
-    "angular-ui-utils": "~0.1"
+    "angular": "^1.3",
+    "angular-mocks": "^1.3",
+    "angular-resource": "^1.3",
+    "angular-animate": "^1.3",
+    "bootstrap": "^3.1.1",
+    "fontawesome": "^4.0.3",
+    "angular-bootstrap": "^0.10.0",
+    "angular-ui-router": "^0.2",
+    "angular-ui-utils": "^0.1",
+    "angular-socket-io": "^0.4.1",
+    "socket.io-client": "^0.9.15"
   },
   "dependencies": {}
 }

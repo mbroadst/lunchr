@@ -5,6 +5,7 @@ angular.module('lunchr', [
   'ui.router.state',
   'ui.router',
   'lunchr.api',
+  'lunchr.socket',
   'lunchr.vote',
   'lunchr.results'
 ])
