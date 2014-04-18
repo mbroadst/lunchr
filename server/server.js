@@ -5,19 +5,16 @@ var express = require('express'),
 		errorHandler = require('errorhandler'),
 		serveStatic = require('serve-static'),
 		compression = require('compression'),
-    http = require('http'),
     path = require('path'),
-    config = require('./server-config'),
-    choices = require('./routes/choices'),
-    votes = require('./routes/votes');
-
-var app = module.exports = express();
+    fs = require('fs'),
+    mongoose = require('mongoose');
 
 // paths
 var root = path.join(__dirname, '../build')
-		assets = path.join(root, 'assets');
+    assets = path.join(root, 'assets');
 
 // configuration
+var app = module.exports = express();
 app.set('port', process.env.PORT || 8000);
 app.use(bodyParser());
 app.use(methodOverride());
@@ -31,19 +28,29 @@ if (app.get('env') === 'development') {
   // TODO
 }
 
+// database
+mongoose.connect('mongodb://localhost/lunchr');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // load all models
+  fs.readdirSync(__dirname + '/models').forEach(function (file) {
+    if (~file.indexOf('.js')) {
+      console.log("loading: " + __dirname + '/models/' + file);
+      require(__dirname + '/models/' + file);
+    }
+  });
 
-// create yelp client
-var yelp = require("yelp").createClient(config.yelpAuthInfo);
+  // routes
+  app.use('/api/choices', require('./routes/choices'));
+  app.use('/api/votes', require('./routes/votes'));
+  app.use(serveStatic(root));
+  app.all('/*', function(req, res) {
+    // Just send the index.html for other files to support HTML5Mode
+    res.sendfile('index.html', { root: root });
+  });
 
-// routes
-app.use('/api/choices', choices);
-app.use('/api/vote', votes);
-app.use(serveStatic(root));
-app.all('/*', function(req, res) {
-  // Just send the index.html for other files to support HTML5Mode
-  res.sendfile('index.html', { root: root });
-});
-
-app.listen(app.get('port'), function () {
-  console.log('Express server listening on port ' + app.get('port'));
+  app.listen(app.get('port'), function () {
+    console.log('Express server listening on port ' + app.get('port'));
+  });
 });

@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "yelp": "^0.1.1",
+    "mongoose": "^3.8.8",
     "express": "^4.0.0",
     "body-parser": "^1.0.2",
     "morgan": "^1.0.0",
@@ -18,7 +19,8 @@
     "method-override": "^1.0.0",
     "static-favicon": "^1.0.2",
     "serve-static": "^1.0.4",
-    "compression": "^1.0.1"
+    "compression": "^1.0.1",
+    "async": "^0.7.0"
   },
   "devDependencies": {
     "bower": "~1.2.8",
