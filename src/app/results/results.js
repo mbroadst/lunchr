@@ -1,6 +1,7 @@
 angular.module('lunchr.results', [
   'ngResource',
-  'ui.router.state'
+  'ui.router.state',
+  'ui.bootstrap'
 ])
 
 .config(function($stateProvider) {
@@ -16,6 +17,9 @@ angular.module('lunchr.results', [
   });
 })
 
-.controller('ResultsCtrl', ['$scope', function($scope) {
-
+.controller('ResultsCtrl', ['$scope', 'api', function($scope, api) {
+  api.Votes.query(null, null, function(result) {
+    $scope.results = result.votes;
+    $scope.totalVotes = result.total;
+  });
 }]);

@@ -25,6 +25,21 @@ angular.module('lunchr.vote', [
     });
   };
 
+  $scope.compileVote = function() {
+    var result = [];
+    for (var i in $scope.selected) {
+      var idx = $scope.selected[i];
+      var score = (1 / (parseInt(i) + 1));
+      result.push({
+        name: $scope.choices[idx].name,
+        restaurant_id: $scope.choices[idx].id,
+        score: score
+      });
+    }
+
+    return result;
+  };
+
   $scope.select = function(index) {
     var idx = $scope.selected.indexOf(index);
     if (idx == -1) {
@@ -33,9 +48,12 @@ angular.module('lunchr.vote', [
       $scope.selected.splice(idx, 1);
     }
 
-    console.log($scope.choices[index]);
-    if ($scope.selected.length === 3)
-      $state.go('results');
+    if ($scope.selected.length === 3) {
+      var vote = $scope.compileVote();
+      api.Votes.save(vote, function() {
+        $state.go('results');
+      });
+    }
   };
 
   // initial data fetch

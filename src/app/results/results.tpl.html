@@ -1,4 +1,9 @@
-<div class="jumbotron">
-  <h1>Success</h1>
-  <p>We're going to lunch at Duffy's!</p>
+<div class="list-group">
+  <div ng-repeat="result in results" href="#" class="list-group-item">
+    {{result.name}}
+
+    <progressbar animate="false" value="result.score" max="totalVotes" type="success">
+      <b>{{result.score}}%</b>
+    </progressbar>
+  </div>
 </div>
